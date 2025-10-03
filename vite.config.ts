@@ -1,10 +1,16 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import vitePluginInjectDataLocator from "./plugins/vite-plugin-inject-data-locator";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), vitePluginInjectDataLocator()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
   build: {
     minify: 'terser',
     terserOptions: {
@@ -17,14 +23,14 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['@heroui/react', '@heroui/use-theme'],
+          ui: ['@radix-ui/react-slot', 'class-variance-authority', 'clsx', 'tailwind-merge'],
           animation: ['framer-motion'],
-          icons: ['@iconify/react']
+          icons: ['@iconify/react', 'lucide-react']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', '@heroui/react', '@heroui/use-theme', 'framer-motion', '@iconify/react']
+    include: ['react', 'react-dom', '@radix-ui/react-slot', 'class-variance-authority', 'clsx', 'tailwind-merge', 'framer-motion', '@iconify/react', 'lucide-react']
   }
 });

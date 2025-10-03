@@ -1,8 +1,9 @@
 import React from "react";
-import { Card, CardBody, Image, Button } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Icon } from "@iconify/react";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
 
 export const AboutSection: React.FC = () => {
   const [ref, inView] = useInView({
@@ -17,19 +18,29 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="section-padding bg-content1">
-      <div className="container mx-auto px-4">
+    <section id="about" className="py-24 md:py-32 bg-muted/20">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           ref={ref}
-          className="mb-16 text-center"
+          className="mb-20 text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-default-600 max-w-2xl mx-auto">
-            Get to know more about me, my background, and what drives me forward.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+          >
+            <div className="w-2 h-2 bg-primary rounded-full"></div>
+            About Me
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            Get to Know Me
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Discover my journey, passion, and the drive that fuels my work in technology and research.
           </p>
         </motion.div>
 
@@ -38,44 +49,65 @@ export const AboutSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full max-w-2xl bg-white/80 rounded-xl shadow p-8 mb-10"
+            className="w-full max-w-5xl"
           >
-            <h3 className="text-2xl font-bold mb-4 text-center">Software Engineer & Researcher</h3>
-            <p className="text-default-600 mb-8 leading-relaxed text-center">
-              I am an accomplished AI & Machine Learning professional with 2+ years of experience, 8+ projects completed, and 2 research papers published. My expertise lies in leveraging data and automation to build innovative solutions and drive efficiency.<br /><br />
-              At WNS Holdings Limited, I've developed robust automation tools and predictive models, significantly optimizing processes and enabling proactive decision-making. My work at Samsung Research and Development focused on advanced human activity detection using cutting-edge deep learning techniques. Proficient in Python, SQL, and various ML/AI frameworks, I am driven by a passion for transforming complex challenges into efficient, data-driven solutions.
-            </p>
+            <Card className="shadow-2xl border-0 bg-background/90 backdrop-blur-sm hover:shadow-3xl transition-all duration-300">
+              <CardContent className="p-12">
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                    Software Engineer & Researcher
+                  </h3>
+                  <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto mb-6"></div>
+                </div>
+                <div className="prose prose-lg max-w-none text-center">
+                  <p className="text-muted-foreground leading-relaxed text-lg mb-6">
+                    I am an accomplished AI & Machine Learning professional with <span className="text-primary font-semibold">2+ years of experience</span>,
+                    <span className="text-primary font-semibold"> 8+ projects completed</span>, and
+                    <span className="text-primary font-semibold"> 2 research papers published</span>. My expertise lies in leveraging data and automation to build innovative solutions and drive efficiency.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed text-lg">
+                    At <span className="font-semibold text-foreground">WNS Holdings Limited</span>, I've developed robust automation tools and predictive models, significantly optimizing processes and enabling proactive decision-making. My work at <span className="font-semibold text-foreground">Samsung Research and Development</span> focused on advanced human activity detection using cutting-edge deep learning techniques. Proficient in Python, SQL, and various ML/AI frameworks, I am driven by a passion for transforming complex challenges into efficient, data-driven solutions.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
 
-          <div className="w-full flex flex-col items-center gap-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-6 w-full max-w-2xl">
+          <div className="w-full flex flex-col items-center gap-12 mt-16">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full max-w-4xl">
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                  className="text-center"
+                  className="text-center group"
                 >
-                  <div className="text-3xl font-bold text-primary mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-default-600">{stat.label}</div>
+                  <Card className="p-8 hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-background to-muted/20 group-hover:scale-105">
+                    <CardContent className="p-0">
+                      <div className="text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
+                        {stat.number}
+                      </div>
+                      <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">{stat.label}</div>
+                    </CardContent>
+                  </Card>
                 </motion.div>
               ))}
             </div>
-            <Button
-              color="primary"
-              radius="full"
-              endContent={<Icon icon="lucide:download" width={18} />}
-              className="font-medium"
-              as="a"
-              href="https://drive.google.com/file/d/1uVXO2gIB4C2Wz1MvpuQ5MGlX9Hy70UpH/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 1.0 }}
             >
-              Download Resume
-            </Button>
+              <Button
+                size="lg"
+                className="font-semibold px-8 py-6 text-base shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={() => window.open("https://drive.google.com/file/d/1uVXO2gIB4C2Wz1MvpuQ5MGlX9Hy70UpH/view?usp=sharing", "_blank")}
+              >
+                <Icon icon="lucide:download" width={20} className="mr-2" />
+                Download Resume
+              </Button>
+            </motion.div>
           </div>
         </div>
       </div>

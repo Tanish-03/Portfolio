@@ -1,19 +1,8 @@
 import React from "react";
-import { Card, CardBody } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Icon } from "@iconify/react";
-
-interface Skill {
-  name: string;
-  percentage: number;
-  icon: string;
-}
-
-interface SkillCategory {
-  title: string;
-  skills: Skill[];
-}
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
 
 export const SkillsSection: React.FC = () => {
   const [ref, inView] = useInView({
@@ -23,105 +12,115 @@ export const SkillsSection: React.FC = () => {
 
   const skillCategories = [
     {
-      title: "🧠 Languages",
+      title: "🐍 Core Programming",
       items: [
-        "Python – Core language for automation, analytics, and ETL",
-        "SQL – For querying databases",
-        "Bash/Shell – Scripting tasks in Unix-based systems",
-        "R (optional) – For statistical modeling",
-        "JavaScript/TypeScript – For frontend (if building dashboards)"
+        "Python – Data engineering, automation & ML",
+        "SQL – Complex queries & data modeling",
+        "Bash/Shell – System automation & scripting",
+        "Git – Version control & collaboration"
       ]
     },
     {
-      title: "📦 Python Libraries / Frameworks",
+      title: "📊 Data Engineering",
       items: [
-        "pandas", "numpy", "matplotlib", "seaborn", "plotly", "bokeh", "polars (faster alternative to pandas)"
+        "Apache Airflow – Workflow orchestration",
+        "Apache Spark – Big data processing",
+        "dbt – Data transformation & modeling",
+        "Apache Kafka – Stream processing",
+        "ETL/ELT Pipeline Design",
+        "Data Lake & Warehouse Architecture"
       ]
     },
     {
-      title: "🧹 Data Cleaning & Processing",
+      title: "🤖 Generative AI & ML",
       items: [
-        "openpyxl / xlrd / xlsxwriter – Excel automation",
-        "pyjanitor – Extended cleaning utilities",
-        "pyarrow / fastparquet – Working with parquet files"
+        "OpenAI GPT/Claude APIs – LLM integration",
+        "LangChain – AI application framework",
+        "Hugging Face – Transformers & models",
+        "scikit-learn – Machine learning",
+        "TensorFlow/PyTorch – Deep learning",
+        "Vector Databases – Pinecone, Chroma"
       ]
     },
     {
-      title: "📈 Analytics / Statistics",
+      title: "☁️ Cloud & Databases",
       items: [
-        "scipy", "statsmodels", "scikit-learn (for ML basics)"
+        "AWS (S3, Lambda, Glue, Redshift)",
+        "Google Cloud (BigQuery, Vertex AI)",
+        "PostgreSQL, MySQL – Relational DBs",
+        "MongoDB – NoSQL databases",
+        "Snowflake – Cloud data warehouse"
       ]
     },
     {
-      title: "🔄 Automation & Scheduling",
+      title: "🔧 Python Libraries",
       items: [
-        "airflow – Workflow orchestration",
-        "luigi",
-        "schedule – Lightweight job scheduling",
-        "apscheduler",
-        "pyautogui – GUI automation",
-        "selenium / playwright – Browser automation",
-        "beautifulsoup / scrapy – Web scraping"
+        "pandas, numpy – Data manipulation",
+        "requests, httpx – API integration",
+        "FastAPI, Flask – Web frameworks",
+        "pydantic – Data validation",
+        "celery – Task queues",
+        "prefect – Workflow management"
       ]
     },
     {
-      title: "🔌 APIs & Integration",
+      title: "🚀 Automation & DevOps",
       items: [
-        "requests", "httpx", "pydantic – Data validation", "FastAPI / Flask – Build APIs to expose your data pipelines"
+        "Docker – Containerization",
+        "Kubernetes – Orchestration",
+        "CI/CD Pipelines – GitHub Actions",
+        "Terraform – Infrastructure as Code",
+        "Monitoring – Prometheus, Grafana",
+        "Web Scraping – Selenium, BeautifulSoup"
       ]
     },
     {
-      title: "🧊 Databases / Warehouses",
+      title: "📈 Analytics & Visualization",
       items: [
-        "PostgreSQL / MySQL", "MongoDB", "Snowflake", "BigQuery", "Amazon Redshift"
+        "Tableau, Power BI – Business intelligence",
+        "matplotlib, seaborn – Data visualization",
+        "plotly, streamlit – Interactive dashboards",
+        "Jupyter Notebooks – Data exploration",
+        "Apache Superset – Open-source BI"
       ]
     },
     {
-      title: "📤 ETL / ELT / Pipelines",
+      title: "🛠️ Tools & Frameworks",
       items: [
-        "Apache Airflow", "dbt (Data Build Tool)", "Kafka / RabbitMQ – Stream processing", "Spark / PySpark"
-      ]
-    },
-    {
-      title: "💾 Storage & Cloud",
-      items: [
-        "Amazon S3", "Google Cloud Storage", "Azure Blob Storage"
-      ]
-    },
-    {
-      title: "☁️ Cloud Platforms",
-      items: [
-        "AWS (EC2, S3, Lambda, Athena)", "GCP (BigQuery, Cloud Functions)", "Azure (Data Factory, Synapse)"
-      ]
-    },
-    {
-      title: "📈 BI / Dashboarding Tools",
-      items: [
-        "Power BI", "Tableau", "Looker", "Metabase", "Streamlit / Dash / Panel – Python-based dashboards"
-      ]
-    },
-    {
-      title: "🧰 DevOps & Productivity",
-      items: [
-        "Git / GitHub / GitLab", "Docker – Containerize ETL or automation scripts", "VSCode / Jupyter / PyCharm – IDEs for development", "CI/CD – GitHub Actions, GitLab CI"
+        "Apache Airflow – Workflow scheduling",
+        "Apache NiFi – Data flow management",
+        "Great Expectations – Data validation",
+        "Apache Beam – Stream/batch processing",
+        "MLflow – ML lifecycle management",
+        "Dagster – Data orchestration"
       ]
     }
   ];
 
   return (
-    <section id="skills" className="section-padding bg-content1">
-      <div className="container mx-auto px-4">
+    <section id="skills" className="py-24 md:py-32 bg-muted/20">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           ref={ref}
-          className="mb-16 text-center"
+          className="mb-20 text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Skills & Technologies</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-default-600 max-w-2xl mx-auto">
-            My technical skills and the technologies I work with.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+          >
+            <div className="w-2 h-2 bg-primary rounded-full"></div>
+            Skills
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            Technical Expertise
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            A comprehensive overview of my technical skills, tools, and technologies I work with.
           </p>
         </motion.div>
 
@@ -129,19 +128,30 @@ export const SkillsSection: React.FC = () => {
           {skillCategories.map((category, idx) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 * idx }}
+              transition={{ duration: 0.6, delay: 0.1 * idx }}
+              className="group"
             >
-              <Card className="shadow-sm h-full">
-                <CardBody className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">{category.title}</h3>
-                  <ul className="list-disc pl-5 space-y-2 text-default-600">
+              <Card className="shadow-2xl h-full hover:shadow-3xl transition-all duration-300 border-0 bg-gradient-to-br from-background to-muted/10 group-hover:scale-[1.02]">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors">
+                    {category.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex flex-wrap gap-2">
                     {category.items.map((item: string) => (
-                      <li key={item}>{item}</li>
+                      <Badge
+                        key={item}
+                        variant="outline"
+                        className="text-xs font-medium border-primary/20 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-300 cursor-default"
+                      >
+                        {item}
+                      </Badge>
                     ))}
-                  </ul>
-                </CardBody>
+                  </div>
+                </CardContent>
               </Card>
             </motion.div>
           ))}

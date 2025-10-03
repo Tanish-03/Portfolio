@@ -1,8 +1,10 @@
 import React from "react";
-import { Card, CardBody, CardFooter, Button, Image, Chip, Tabs, Tab } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Icon } from "@iconify/react";
+import { Card, CardContent, CardFooter, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 interface Project {
   id: number;
@@ -63,100 +65,125 @@ export const ProjectsSection: React.FC = () => {
     : projects.filter(project => project.category === selectedCategory);
 
   return (
-    <section id="projects" className="section-padding">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="py-24 md:py-32 bg-muted/20">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
           ref={ref}
-          className="mb-16 text-center"
+          className="mb-20 text-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Projects</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-default-600 max-w-2xl mx-auto">
-            A selection of my recent work, personal projects, and contributions.
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+          >
+            <div className="w-2 h-2 bg-primary rounded-full"></div>
+            Projects
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            Featured Work
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            A showcase of my recent projects, innovative solutions, and creative contributions.
           </p>
         </motion.div>
 
-        <div className="mb-12">
-          <Tabs
-            aria-label="Project categories"
-            color="primary"
-            variant="light"
-            selectedKey={selectedCategory}
-            onSelectionChange={setSelectedCategory as any}
-            classNames={{
-              tabList: "gap-4 w-full justify-center",
-              cursor: "bg-primary/20",
-              tab: "px-4 py-2 text-sm font-medium"
-            }}
-          >
+        {/* Filter Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-16"
+        >
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((category) => (
-              <Tab
+              <Button
                 key={category}
-                title={category.charAt(0).toUpperCase() + category.slice(1)}
-              />
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="lg"
+                onClick={() => setSelectedCategory(category)}
+                className={`capitalize font-medium px-6 py-3 transition-all duration-300 ${selectedCategory === category
+                  ? 'shadow-lg hover:shadow-xl'
+                  : 'hover:bg-primary/10 hover:border-primary/50'
+                  }`}
+              >
+                {category}
+              </Button>
             ))}
-          </Tabs>
-        </div>
+          </div>
+        </motion.div>
 
+        {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 * (index % 3) }}
+              transition={{ duration: 0.6, delay: 0.1 * (index % 3) }}
+              className="group"
             >
-              <Card className="project-card shadow-sm h-full">
-                <CardBody className="p-0 overflow-hidden">
-                  <Image
+              <Card className="h-full hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-background to-muted/10 group-hover:scale-[1.02] overflow-hidden">
+                {/* Project Image */}
+                <div className="relative overflow-hidden rounded-t-lg">
+                  <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-xl font-semibold">{project.title}</h3>
-                      <Chip size="sm" variant="flat" color="primary">
-                        {project.category}
-                      </Chip>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Badge
+                    variant="secondary"
+                    className="absolute top-4 right-4 bg-background/90 text-foreground font-medium"
+                  >
+                    {project.category}
+                  </Badge>
+                </div>
+
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div>
+                      <CardTitle className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </CardTitle>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {project.description}
+                      </p>
                     </div>
-                    <p className="text-default-600 mb-4">{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-2">
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
-                        <Chip key={tech} size="sm" variant="flat">
+                        <Badge
+                          key={tech}
+                          variant="outline"
+                          className="text-xs font-medium border-primary/20 text-primary hover:bg-primary/10 transition-colors"
+                        >
                           {tech}
-                        </Chip>
+                        </Badge>
                       ))}
                     </div>
                   </div>
-                </CardBody>
-                <CardFooter className="px-6 py-4 border-t border-default-100 gap-2">
+                </CardContent>
+
+                <CardFooter className="px-6 py-4 gap-3">
                   <Button
-                    as="a"
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    color="primary"
-                    variant="flat"
-                    radius="full"
-                    className="flex-1"
-                    endContent={<Icon icon="lucide:external-link" width={16} />}
+                    variant="default"
+                    className="flex-1 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={() => window.open(project.demoLink, "_blank")}
                   >
+                    <Icon icon="lucide:external-link" width={16} className="mr-2" />
                     Live Demo
                   </Button>
                   <Button
-                    as="a"
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="light"
-                    radius="full"
-                    className="flex-1"
-                    endContent={<Icon icon="lucide:github" width={16} />}
+                    variant="outline"
+                    className="flex-1 font-semibold border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                    onClick={() => window.open(project.githubLink, "_blank")}
                   >
+                    <Icon icon="lucide:github" width={16} className="mr-2" />
                     GitHub
                   </Button>
                 </CardFooter>
